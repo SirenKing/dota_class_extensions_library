@@ -1,5 +1,3 @@
-local ALL_ABILITY_EXCEPTIONS = LoadKeyValues('scripts/vscripts/ability_exceptions.txt')
-
 function CDOTABaseAbility:BeginCastStormRadial( ability_name, origin, cast_qty, delay, min_dist, max_dist, min_radius, max_radius, b_randomize_origin )
 
   if IsClient() then return end
@@ -366,7 +364,7 @@ function CDOTABaseAbility:GetCastTypeString()
 end
 
 
-function CDOTABaseAbility:ChaosCastPointSpell( ability, pos, pattern ) -- pos is an optional parameter that chooses an origin other than the caster's location
+function CDOTABaseAbility:ChaosCastPointSpell( ability, pos, pattern ) -- Just some sample cast patterns. 'pos' is an optional parameter here.
 
   local origin = self:GetCaster():GetOrigin()
 
@@ -395,10 +393,9 @@ function CDOTABaseAbility:ChaosCastPointSpell( ability, pos, pattern ) -- pos is
   if pattern~=nil then
     print( "Pattern # is " .. pattern )
   end
-
---   if ALL_ABILITY_EXCEPTIONS[spellName] and ALL_ABILITY_EXCEPTIONS[spellName].should_nerf==true then
--- -- SplitSubcast( ability_name, origin, original_angles, cast_qty, delay, angle_increment_degrees, offset_angle_degrees, dist_from_origin, dist_from_subcaster, dist_increment, radius_fl, damage_fl, vector_cast_rotation )
---     local rand_qty = RandomInt(4,5) -- cast op spells ins a ring
+  
+-- SplitSubcast( ability_name, origin, original_angles, cast_qty, delay, angle_increment_degrees, offset_angle_degrees, dist_from_origin, dist_from_subcaster, dist_increment, radius_fl, damage_fl, vector_cast_rotation )
+--     local rand_qty = RandomInt(4,5) -- example of randomizing a value
 --     self:SplitSubcast(
 --       spellName, -- spell for the subcaster to cast
 --       origin, -- position at which to place the subcasters
@@ -501,13 +498,9 @@ function CDOTABaseAbility:ChaosCastPointSpell( ability, pos, pattern ) -- pos is
         return nil
       end)
     
-  elseif pattern=="pentagram" then -- instantly cast your ability in a single ring around you, angled into a pentagram
+  elseif pattern=="pentagram" then -- instantly cast your ability in a single ring around you, angled into a pentagram.
     local star_points = RandomInt( 5, 8 )
     self:SplitSubcast( spellName, origin, original_angles, star_points, 0, 360/star_points, 0, 250, 250, 0, 1, 1, 180 + 180/star_points )
-
-    if spellName=="lion_impale" and star_points==5 and origin~=caster:GetAbsOrigin() then -- if lion made a pentagram away from himself (~157 chance), summon a chaos golem, lol
-      self:SplitSubcast( "warlock_rain_of_chaos", origin, original_angles, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0 ) -- doesn't give control of golem, but still funny
-    end
 
   else
     print("no pattern recognized")
