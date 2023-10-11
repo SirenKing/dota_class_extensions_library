@@ -1,7 +1,12 @@
 -- LinkLuaModifier( "modifier_bonus_drop_chance", "modifiers/modifier_bonus_drop_chance.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_animation_override", "extend_npc", LUA_MODIFIER_MOTION_NONE )
 
-function CDOTA_BaseNPC:PlaySequenceWithRateModifier( act, seq_str, rate, dur )
+-- Force a specific animation to play on a given npc.
+-- 'act' is the GameActivity_t enum, so DO NOT put quotes around this value, as it is NOT a string.
+-- 'seq_str' is the string name of the specific animation you want to play. You can find these animation names by searching for the model in the Asset Browser, single-clicking on the model, and looking in the 'Sequence' dropdown menu. You find easily find the unit you want by searching 'tiny .vmdl' for instance.
+-- 'rate' is the speed at which to play the animation. '1' is normal speed, '2' is double speed, '0.5' is half speed, etc.
+-- "dur' is the duration (in speconds) you want the animation to play for. If 'nil' then the animation will play indefinitely. If you want the animation to play only once, use `SequenceDuration()` to get the animation's default duration, and divide that by 'rate'
+function CDOTA_BaseNPC:PlaySequenceWithRateModifier( act_enum, seq_str, rate, dur )
 
   local mod = nil
 
@@ -12,7 +17,7 @@ function CDOTA_BaseNPC:PlaySequenceWithRateModifier( act, seq_str, rate, dur )
   mod = self:AddNewModifier( nil, nil, "modifier_animation_override", { duration = dur } )
 
   mod.rate = rate
-  mod.act = act
+  mod.act = act_enum
   mod.sequence_string = seq_str
   mod.dur = dur
   mod:ForceRefresh()
@@ -20,68 +25,7 @@ function CDOTA_BaseNPC:PlaySequenceWithRateModifier( act, seq_str, rate, dur )
   return mod
 end
 
-function CDOTA_BaseNPC:GetDropLuck()
-  local luck = 0
-  if self:HasModifier("modifier_bonus_drop_chance") then
-		luck = self:FindModifierByName("modifier_bonus_drop_chance"):GetStackCount()
-  else
-    self:AddNewModifier( self, nil, "modifier_bonus_drop_chance", {} )
-	end
-  return luck
-end
-
-function CDOTA_BaseNPC:SetDropLuck( luck )
-  if self:HasModifier("modifier_bonus_drop_chance") then
-		self:FindModifierByName("modifier_bonus_drop_chance"):SetStackCount( luck )
-  else
-    self:AddNewModifier( self, nil, "modifier_bonus_drop_chance", {} )
-	end
-end
-
-function CDOTA_BaseNPC:MaybeDropItem( killer, luck_bonus )
-  local rand_100 = RandomInt(1,100)
-
-  local common_min = 100 - BUTTINGS.COMMON_CHANCE
-  local uncommon_min = 100 - BUTTINGS.UNCOMMON_CHANCE
-  local rare_min = 100 - BUTTINGS.RARE_CHANCE
-  local legend_min = 100 - BUTTINGS.LEGENDARY_CHANCE
-  local item = nil
-
-  if rand_100 >= legend_min then
-    item = self:DropItemRewardForHero( killer, "legendary" )
-  else
-    if rand_100 >= rare_min then
-      item = self:DropItemRewardForHero( killer, "rare" )
-    else
-      if rand_100 >= uncommon_min then
-        item = self:DropItemRewardForHero( killer, "uncommon" )
-      else
-        if rand_100 >= ( common_min + luck_bonus ) then
-          item = self:DropItemRewardForHero( killer, "common" )
-        else
-          if BUTTINGS.ENCHANTS_DEBUG then
-            print("KILLS_DROP_ITEMS_DEBUG: dropped nothing")
-          end
-        end
-      end
-    end
-  end
-  return item
-end
-
-function CDOTA_BaseNPC:DropItemRewardForHero( killer, rarity_str )
-  if BUTTINGS.ENCHANTS_DEBUG then
-    print("KILLS_DROP_ITEMS_DEBUG: dropped ", rarity_str, " item")
-  end
-  local pos = self:GetAbsOrigin()
-  local item_table = DROPS[ rarity_str ]
-  local item_name = item_table[ RandomInt( 1, #item_table ) ]
-  local item = CreateItem( item_name, killer, nil )
-  CreateItemOnPositionSync( pos, item )
-  item:LaunchLootInitialHeight( false, 0, 100, 0.75, pos)
-  return item
-end
-
+-- This created a set number of invisible/invulnerable 'subcasters' that this unit will remember and re-use.
 function CDOTA_BaseNPC:CreateSubcasters( num )
   self.subcasters = {}
   for i=1,num do
@@ -91,12 +35,6 @@ function CDOTA_BaseNPC:CreateSubcasters( num )
     -- end
     -- unit:SetOwner( self )
     unit.hero_parent = self
-    -- for i=1,24 do
-    --   local test_ability = self:GetAbilityByIndex(i)
-    --   if test_ability:GetName() then
-        
-    --   end
-    -- end
 
     self.subcasters[i] = unit
     self.subcasters[i].busy = false
@@ -109,10 +47,13 @@ function CDOTA_BaseNPC:CreateSubcasters( num )
   return self.subcasters
 end
 
+-- This gets the subcasters created for this npc. Returns nil if these are currently no subcasters for this unit
+-- NOTE: do not use 'SetOwner()' to give this npc ownership of the subcasters, since that causes bot-heroes to try to control these subcasters, causing huge lag
 function CDOTA_BaseNPC:GetSubcasters()
   return self.subcasters
 end
 
+-- Gets the subcasters for this npc, but only returns the subcasters for which subcaster.busy == false
 function CDOTA_BaseNPC:GetIdleSubcasters()
   local subcs = self.subcasters
   local idle = {}
@@ -145,6 +86,37 @@ function CDOTA_BaseNPC:GetIdleSubcasters()
   return idle
 end
 
+-- This will eventually force this unit to face a random direction
+function CDOTA_BaseNPC:SetRandomForward()
+  -- self:SetAbsAngles( 0, RandomVector(100).y, 0 ) -- needs to be tested
+end
+
+-- get the dist (in a straight line, ignoring terrain) from this unit to the given position
+-- Position is a vector, such as Vector( 0, 0, 0 ) or the value returned by unit:GetOrigin()
+function CDOTA_BaseNPC:GetDistToPos( pos )
+  local pos2 = self:GetAbsOrigin()
+  local dx = pos.x - pos2.x
+  local dy = pos.y - pos2.y
+  local distanceToEnt = math.sqrt ( dx * dx + dy * dy )
+  return distanceToEnt
+end
+
+-- This returns a list of ability names as strings, excluding abilities for map interaction, talents, and 'generic_hidden.'
+function CDOTA_BaseNPC:GetHerosMainAbilities()
+
+  local return_table = {}
+
+  for i=0,30 do
+    local ability = self:GetAbilityByIndex(i)
+    if ability and ability:IsAMainAbility() then -- returns false if this ability is for map interaction, a talent, or 'generic_hidden.'
+      table.insert( return_table, ability )
+    end
+  end
+
+  return return_table
+end
+
+-- Force this npc to perform the given order from the order_params you provde, but only after a given delay. This is used by the subcasters, by default.
 function CDOTA_BaseNPC:DelayCastWithOrders( order_params, delay )
   order_params.UnitIndex = self:GetEntityIndex()
 
@@ -154,31 +126,5 @@ function CDOTA_BaseNPC:DelayCastWithOrders( order_params, delay )
 
     return nil
   end)
-  
-end
 
-function CDOTA_BaseNPC:SetRandomForward()
-  -- self:SetAbsAngles( 0, RandomVector(100).y, 0 ) -- needs to be tested
-end
-
-function CDOTA_BaseNPC:GetDistToPos( pos )
-  local pos2 = self:GetAbsOrigin()
-  local dx = pos.x - pos2.x
-  local dy = pos.y - pos2.y
-  local distanceToEnt = math.sqrt ( dx * dx + dy * dy )
-  return distanceToEnt
-end
-
-function CDOTA_BaseNPC:GetMainHeroAbilities()
-
-  local return_table = {}
-
-  for i=0,30 do
-    local ability = self:GetAbilityByIndex(i)
-    if ability and ability:IsMainHeroAbility() then -- checks whether this ability is an ability that the hero uses, excluding abilities for map interaction
-      table.insert( return_table, ability )
-    end
-  end
-
-  return return_table
 end

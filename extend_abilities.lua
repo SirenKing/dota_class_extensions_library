@@ -573,7 +573,7 @@ function CDOTABaseAbility:IsAMapAbility() -- checks whether this ability is an a
   return false
 end
 
-function CDOTABaseAbility:IsMainHeroAbility()
+function CDOTABaseAbility:IsAMainAbility()
   local name = self:GetName()
   if not self:IsAMapAbility() and name~="generic_hidden" and not string.match( name, "talent" ) and not string.match( name, "bonus" ) then
     return true

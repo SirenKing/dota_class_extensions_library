@@ -1,0 +1,507 @@
+// This is a sample kv file created for detecting certain things about the listed abilities.
+// 'cast' is used by ability_chaos_cast.lua to determine whether an ability can be SplitSubcast
+// By default, extend_ability.lua uses this file to detect whether an ability is a 'secondary' ability, and what the primary ability is.
+
+"ability_exceptions"
+{
+    
+    // Secondary Abilities
+    "invoker_invoke" {
+        "cast"          = false
+    }
+
+    "elder_titan_return_spirit" {
+        "cast"          = true
+    }
+
+    "phoenix_fire_spirits" {
+        "cast"          = true
+        "has_secondary"   = "phoenix_launch_fire_spirit"
+    }
+
+    "phoenix_launch_fire_spirit" {
+        "cast"          = true
+        "has_primary"   = "phoenix_fire_spirits"
+    }
+
+    "shredder_return_chakram" {
+        "cast"          = true
+    }
+
+    "shredder_return_chakram_2" {
+        "cast"          = true
+    }
+
+    "ancient_apparition_ice_blast" {
+        "cast"          = true
+        "has_secondary" = "ancient_apparition_ice_blast_release"
+    }
+
+    "ancient_apparition_ice_blast_release" {
+        "cast"          = true
+        "has_primary"   = "ancient_apparition_ice_blast"
+    }
+
+    "alchemist_chemical_rage" {
+        "cast"          = false
+    }
+
+    "alchemist_unstable_concoction" {
+        "cast"          = false
+    }
+
+    "abaddon_borrowed_time" {
+        "cast"          = false
+    }
+
+    "abyssal_underlord_dark_rift" {
+        "cast"          = false
+    }
+
+    "abyssal_underlord_cancel_dark_rift" {
+        "cast"          = false
+    }
+
+    "abyssal_underlord_cancel_dark_rift" {
+        "cast"          = false
+    }
+
+    "phoenix_supernova" {
+        "cast"          = false
+    }
+
+
+
+    // Abilities that are problematic for ability_chaos_cast
+
+    "antimage_blink" {
+        "cast"          = false
+    }
+
+    "antimage_spell_shield" {
+        "cast"          = false
+    }
+
+    "batrider_firefly" {
+        "cast"          = false
+    }
+
+    "beastmaster_call_of_the_wild" {
+        "cast"          = true
+    }
+
+    "beastmaster_call_of_the_wild_boar" {
+        "cast"          = true
+    }
+
+    "beastmaster_call_of_the_wild_hawk" {
+        "cast"          = true
+    }
+
+    "bounty_hunter_wind_walk" {
+        "cast"          = false
+    }
+
+    "broodmother_insatiable_hunger" {
+        "cast"          = false
+    }
+
+    "broodmother_spin_web" {
+        "cast"          = false
+    }
+
+    "centaur_stampede" {
+        "cast"          = false
+    }
+
+    "chaos_knight_phantasm" {
+        "cast"          = false
+    }
+
+    "clinkz_wind_walk" {
+        "cast"          = false
+    }
+
+    "dragon_knight_elder_dragon_form" {
+        "cast"          = false
+    }
+
+    "earthshaker_enchant_totem" {
+        "cast"          = false
+    }
+
+    "faceless_void_backtrack" {
+        "cast"          = false
+    }
+
+    "faceless_void_time_walk" {
+        "cast"          = false
+    }
+
+    "furion_teleportation" {
+        "cast"          = false
+    }
+
+    "gyrocopter_flak_cannon" {
+        "cast"          = false
+    }
+
+    "invoker_exort" {
+        "cast"          = true
+    }
+
+    "invoker_quas" {
+        "cast"          = true
+    }
+
+    "invoker_wex" {
+        "cast"          = true
+    }
+
+    "juggernaut_healing_ward" {
+        "cast"          = false
+    }
+
+    "keeper_of_the_light_illuminate_end" {
+        "cast"          = true
+    }
+
+    "keeper_of_the_light_spirit_form_illuminate_end" {
+        "cast"          = true
+    }
+
+    "keeper_of_the_light_spirit_form" {
+        "cast"          = true
+    }
+
+    "kun_return" {
+        "cast"          = false
+    }
+
+    "life_stealer_rage" {
+        "cast"          = false
+    }
+
+    "lone_druid_rabid" {
+        "cast"          = false
+    }
+
+    "lone_druid_rabid" {
+        "cast"          = true
+        "spend"         = true
+    }
+
+    "lone_druid_spirit_bear" {
+        "cast"          = true
+        "has_secondary" = "lone_druid_spirit_bear_return"
+    }
+
+    "lone_druid_spirit_bear_return" {
+        "has_primary"   = "lone_druid_spirit_bear"
+    }
+
+    "lycan_shapeshift" {
+        "cast"          = false
+    }
+
+    "lycan_summon_wolves" {
+        "cast"          = true
+    }
+
+    "mirana_invis" {
+        "cast"          = false
+    }
+
+    "mirana_leap" {
+        "cast"          = false
+    }
+
+    "morphling_morph_agi" {
+        "cast"          = false
+    }
+
+    "morphling_morph_str" {
+        "cast"          = false
+    }
+
+    "naga_siren_mirror_image" {
+        "cast"          = false
+    }
+
+    "naga_siren_song_of_the_siren_cancel" {
+        "cast"          = true
+        "has_primary"   = "naga_siren_song_of_the_siren"
+    }
+
+    "night_stalker_darkness" {
+        "cast"          = false
+    }
+
+    "nyx_assassin_spiked_carapace" {
+        "cast"          = false
+    }
+
+    "nyx_assassin_vendetta" {
+        "cast"          = false
+    }
+
+    "phantom_assassin_blur" {
+        "cast"          = false
+    }
+
+    "phantom_lancer_doppelwalk" {
+        "cast"          = false
+    }
+
+    "puck_phase_shift" {
+        "cast"          = false
+    }
+
+    "rubick_telekinesis_land" {
+        "cast"          = false
+    }
+
+    "shadow_demon_shadow_poison_release" {
+        "cast"          = true
+    }
+
+    "shadow_shaman_mass_serpent_ward" {
+        "cast"          = true
+    }
+
+    "skeleton_king_vampiric_aura" {
+        "cast"          = false
+    }
+
+    "slark_shadow_dance" {
+        "cast"          = false
+    }
+
+    "spectre_haunt" {
+        "cast"          = false
+    }
+
+    "spectre_reality" {
+        "cast"          = false
+    }
+
+    "sven_gods_strength" {
+        "cast"          = false
+    }
+
+    "sven_warcry" {
+        "cast"          = false
+    }
+
+    "templar_assassin_meld" {
+        "cast"          = false
+    }
+
+    "templar_assassin_psionic_trap" {
+        "cast"          = true
+        "has_secondary" = "templar_assassin_trap"
+    }
+
+    "tinker_rearm" {
+        "cast"          = false
+    }
+
+    "troll_warlord_battle_trance" {
+        "cast"          = false
+    }
+
+    "troll_warlord_berserkers_rage" {
+        "cast"          = false
+    }
+
+    "troll_warlord_berserkers_rage_active" {
+        "cast"          = false
+    }
+
+    "undying_flesh_golem" {
+        "cast"          = false
+    }
+
+    "ursa_enrage" {
+        "cast"          = false
+    }
+
+    "ursa_overpower" {
+        "cast"          = false
+    }
+
+    "visage_summon_familiars" {
+        "cast"          = true
+        "has_secondary" = "visage_summon_familiars_stone_form"
+    }
+
+    "visage_summon_familiars_stone_form" {
+        "cast"          = true
+        "spend"         = true
+        "has_primary"   = "visage_summon_familiars"
+    }
+
+    "warlock_rain_of_chaos" {
+        "cast"          = true
+    }
+
+    "weaver_shukuchi" {
+        "cast"          = false
+    }
+
+    "weaver_time_lapse" {
+        "cast"          = false
+    }
+
+    "windrunner_windrun" {
+        "cast"          = false
+    }
+
+    "wisp_overcharge" {
+        "cast"          = false
+    }
+
+    "hoodwink_acorn_shot" {
+        "cast"          = false
+    }
+
+    "hoodwink_scurry" {
+        "cast"          = false
+    }
+
+    "drow_multishot" {
+        "cast"          = false
+    }
+
+    "snapfire_lil_shredder" {
+        "cast"          = false
+    }
+
+    "snapfire_spit_creep" {
+        "cast"          = false
+    }
+
+    "abyssal_underlord_dark_rift" {
+        "cast"          = false
+    }    
+
+    "sniper_take_aim" {
+        "cast"          = false
+    }
+
+    "dark_willow_shadow_realm" {
+        "cast"          = false
+    }
+
+    "wisp_relocate" {
+        "cast"          = true
+    }
+
+    "wisp_spirits" {
+        "cast"          = true
+        "has_secondary" = "wisp_spirits_in"
+    }
+
+    "wisp_spirits_in" {
+        "cast"          = true
+        "has_primary"   = "wisp_spirits"
+    }
+
+    "wisp_spirits_out" {
+        "cast"          = true
+        "has_primary"   = "wisp_spirits"
+    }
+
+    "windrunner_windrun" {
+        "cast"          = false
+    }
+
+    "arc_warden_tempest_double" {
+        "cast"          = false
+    }
+
+    "queenofpain_blink" {
+        "cast"          = false
+    }
+
+    "enigma_black_hole" {
+        "cast"          = true
+    }
+
+    "lone_druid_spirit_bear" {
+        "cast"          = true
+        "spend"         = true
+    }
+
+    "undying_tombstone" {
+        "cast"          = true
+        "spend"         = true
+    }
+
+    "witch_doctor_death_ward" {
+        "cast"          = true
+    }
+
+    "zuus_thundergods_wrath" {
+        "cast"          = true
+    }
+
+    "pugna_nether_ward" {
+        "cast"          = true
+    }
+
+    "queenofpain_sonic_wave" {
+        "cast"          = true
+    }
+
+    "shadow_shaman_mass_serpent_ward" {
+        "cast"          = true
+    }
+
+    "elder_titan_earth_splitter" {
+        "cast"          = true
+    }
+
+    "invoker_forge_spirit" {
+        "cast"          = true
+    }
+
+    "monkey_king_wukongs_command" {
+        "cast"          = false
+    }
+
+
+// This is an example of using this file to declare whether an ability counts as 'bouncy' or whatever other property you want to list.
+// Example: If you have an item that alters the radius of only certain abilities, this is a good place to list what abilities should be affected or not.
+
+    "zuus_arc_lightning" {
+        "is_bouncy"     = true
+    }
+
+    "lich_chain_frost" {
+        "is_bouncy"     = true
+    }
+
+    "leshrac_lightning_storm" {
+        "is_bouncy"     = true
+    }
+
+    "medusa_mystic_snake" {
+        "is_bouncy"     = true
+    }
+
+    "witch_doctor_paralyzing_cask" {
+        "is_bouncy"     = true
+    }
+
+    "luna_moon_glaive" {
+        "is_bouncy"     = true
+    }
+
+    "hoodwink_acorn_shot" {
+        "is_bouncy"     = true
+    }
+
+
+}
+

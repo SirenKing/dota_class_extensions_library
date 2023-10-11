@@ -1,0 +1,9 @@
+"DOTAAbilities"
+{
+	"weak_creature"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"abilities/tools/weak_creature"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+	}
+}
