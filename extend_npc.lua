@@ -1,11 +1,7 @@
--- LinkLuaModifier( "modifier_bonus_drop_chance", "modifiers/modifier_bonus_drop_chance.lua", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_animation_override", "extend_npc", LUA_MODIFIER_MOTION_NONE )
 
 -- Force a specific animation to play on a given npc.
--- 'act' is the GameActivity_t enum, so DO NOT put quotes around this value, as it is NOT a string.
--- 'seq_str' is the string name of the specific animation you want to play. You can find these animation names by searching for the model in the Asset Browser, single-clicking on the model, and looking in the 'Sequence' dropdown menu. You find easily find the unit you want by searching 'tiny .vmdl' for instance.
--- 'rate' is the speed at which to play the animation. '1' is normal speed, '2' is double speed, '0.5' is half speed, etc.
--- "dur' is the duration (in speconds) you want the animation to play for. If 'nil' then the animation will play indefinitely. If you want the animation to play only once, use `SequenceDuration()` to get the animation's default duration, and divide that by 'rate'
+-- act_enum: GameActivity_t such as ACT_IDLE, not a string, so don't put it in quotes. seq_str options can be found by searching for the unit's model in the Asset Browser and looking at the sequences dropdown. If dur is nil, plays seq one time.
 function CDOTA_BaseNPC:PlaySequenceWithRateModifier( act_enum, seq_str, rate, dur )
 
   local mod = nil
@@ -25,15 +21,11 @@ function CDOTA_BaseNPC:PlaySequenceWithRateModifier( act_enum, seq_str, rate, du
   return mod
 end
 
--- This created a set number of invisible/invulnerable 'subcasters' that this unit will remember and re-use.
+-- This creates a set number of invisible/invulnerable 'subcasters' that this unit will remember and re-use.
 function CDOTA_BaseNPC:CreateSubcasters( num )
   self.subcasters = {}
   for i=1,num do
     local unit = CreateUnitByName( "npc_dota_subcaster", self:GetOrigin(), false, self, nil, self:GetTeam() )
-    -- if unit:HasAbility("hidden_underfoot") then
-    --   unit:FindAbilityByName("hidden_underfoot"):SetLevel(1)
-    -- end
-    -- unit:SetOwner( self )
     unit.hero_parent = self
 
     self.subcasters[i] = unit
@@ -91,8 +83,7 @@ function CDOTA_BaseNPC:SetRandomForward()
   -- self:SetAbsAngles( 0, RandomVector(100).y, 0 ) -- needs to be tested
 end
 
--- get the dist (in a straight line, ignoring terrain) from this unit to the given position
--- Position is a vector, such as Vector( 0, 0, 0 ) or the value returned by unit:GetOrigin()
+-- get the dist (in a straight line, ignoring terrain) from this unit to the given position. 'Pos' is a vector, such as Vector( 0, 0, 0 ) or the value returned by unit:GetOrigin()
 function CDOTA_BaseNPC:GetDistToPos( pos )
   local pos2 = self:GetAbsOrigin()
   local dx = pos.x - pos2.x
@@ -127,4 +118,68 @@ function CDOTA_BaseNPC:DelayCastWithOrders( order_params, delay )
     return nil
   end)
 
+end
+
+
+
+
+------------------------
+-- ANIMATION MODIFIER --
+------------------------
+
+modifier_animation_override = modifier_animation_override or class({})
+
+function modifier_animation_override:IsPermanent() return true end
+function modifier_animation_override:RemoveOnDeath() return true end
+function modifier_animation_override:IsDebuff() return true end
+function modifier_animation_override:IsPurgable() return false end
+function modifier_animation_override:IsHidden() return false end
+
+function modifier_animation_override:DeclareFunctions()
+	local funcs = {
+		MODIFIER_PROPERTY_OVERRIDE_ANIMATION_RATE
+	}
+	return funcs
+end
+
+function modifier_animation_override:CheckState()
+	local state = {
+		[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+		[MODIFIER_STATE_STUNNED] = true,
+	}
+	return state
+end
+
+function modifier_animation_override:OnCreated()
+  print("Got the modifier")
+end
+
+function modifier_animation_override:OnRemoved()
+  print("Removing animation modifier")
+  self:GetParent():RemoveGesture( self.act )
+  self:StartIntervalThink(-1)
+end
+
+function modifier_animation_override:OnRefresh()
+
+    local parent = self:GetParent()
+    parent:StartGestureWithPlaybackRate( self.act, self.rate )
+    parent:SetSequence( self.sequence_string )
+    local true_duration = self:GetParent():ActiveSequenceDuration() / self.rate
+
+    self:StartIntervalThink( true_duration )
+
+    print(self:GetDuration())
+
+    if self.dur==nil then
+      self:SetDuration( true_duration - FrameTime(), true )
+    end
+end
+
+function modifier_animation_override:OnIntervalThink()
+  self:OnRefresh()
+end
+
+function modifier_animation_override:GetOverrideAnimationRate()
+  return self.rate
 end
