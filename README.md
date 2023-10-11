@@ -5,8 +5,8 @@ If you are new to modding, be sure to follow the instructions in the template's 
 
 # GETTING STARTED:
 To use this code, simply copy the following files from this repository into your 'vscripts/` folder:
-- "extend_abilities.lua"
-- "extend_npc.lua
+- extend_abilities.lua
+- extend_npc.lua
   
 Next, put this code at the top of your 'addon_game_mode.lua' file, but under any other lines starting with 'require':
 
@@ -14,6 +14,8 @@ Next, put this code at the top of your 'addon_game_mode.lua' file, but under any
 require("extend_abilities")
 require("extend_npc")
 ```
+
+Put 'weak_creature.lua' in your vscripts/abilities folder
 
 Inside the filters.lua file, search for the function called ```Filters:DamageFilter(event)``` and add the following code after the local variables:
 
@@ -32,8 +34,42 @@ Inside the filters.lua file, search for the function called ```Filters:DamageFil
 ```
 This code is specifically included so that heroes are credited with the damage dealt -and any kills- by any 'subcasters' they summon. Normally, it is good practice to instead set the unit's 'owner' with the built-in method ```unit:SetOwner( hero )``` and then use ```unit:GetOwner( hero )``` to retrieve this information. In this case, however, bots will try to control any units they 'own' and this causes severe lag, so these units should not be 'owned.'
 
-Finally, add the `npc_units_extension.txt` file in this repo to the `scripts/npc` folder in your mod folder. Then add this line to the very top of your project's `npc_units_custom.txt` file, above the line that says "DOTAUnits":
+Add the `npc_abilities_extension.txt` file to the `scripts/npc` folder in your mod folder. Then add this line to the very top of your project's `npc_abilities_custom.txt` file, above the line that says "DOTAAbilities":
+```#base npc_abilities_extension.txt```
+
+Finally, add the `npc_units_extension.txt` file to the `scripts/npc` folder in your mod folder. Then add this line to the very top of your project's `npc_units_custom.txt` file, above the line that says "DOTAUnits":
 ```#base npc_units_extension.txt```
+
+After following these steps, you should be ready to use the extended npc and ability classes
+
+# API:
+Methods for the ability class:
+ParentOverrideCurrentGesture( ENUM_GESTURE )
+ApplyDamageToEnemiesWithin( v_location, radius, dmg_amount, dmg_type )
+FindClosestBasicEnemyWithin( radius )
+FindBasicEnemiesWithin( targetPos, radius )
+CreateIndicator( v_location, fl_duration, fl_radius )
+GetRandomPointInRadius( v_location, min_dist, max_dist )
+GetRandomPointInSquare( v_location, min_dist, max_dist )
+IsAMapAbility()
+IsAMainAbility()
+GetAllAbilitySpecials()
+GetHasAbilitySpecialWith( name_str )
+GetFirstAbilitySpecialNameContaining( name_str )
+GetCastTypeString()
+GetReturnReleaseOrEndAbilityName()
+IsReturnReleaseOrEndAbilityName()
+BeginCastStormRadial( ability_name, origin, cast_qty, delay, min_dist, max_dist, min_radius, max_radius, b_randomize_origin )
+SplitSubcast( ability_name, origin, original_angles, cast_qty, delay, angle_increment_degrees, offset_angle_degrees, dist_from_origin, dist_from_subcaster, dist_increment, radius_fl, damage_fl, length_int, vector_cast_rotation )
+
+Methods for the npc class:
+PlaySequenceWithRateModifier( act_enum, seq_str, rate, dur )
+CreateSubcasters( num )
+GetSubcasters()
+GetIdleSubcasters()
+GetDistToPos( pos )
+GetHerosMainAbilities()
+DelayCastWithOrders( order_params, delay )
 
 # IMPORTANT AND USEFUL STUFF:
 [Moddota's API tools and Tutorials](https://moddota.com/api/#!/vscripts)
