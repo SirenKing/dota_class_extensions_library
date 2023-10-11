@@ -508,36 +508,6 @@ function CDOTABaseAbility:ChaosCastPointSpell( ability, pos, pattern ) -- Just s
 
 end
 
-function CDOTABaseAbility:GetReturnReleaseOrEndAbilityName( name )
-  
-  local secondary_name = nil
-
-  if ALL_ABILITY_EXCEPTIONS[name] then
-    secondary_name = ALL_ABILITY_EXCEPTIONS[name].has_secondary
-  end
-
-  if secondary_name~=nil then
-    return secondary_name
-  end
-
-  return nil
-end
-
-function CDOTABaseAbility:IsReturnReleaseOrEndAbilityName( name )
-  
-  local primary_name = nil
-
-  if ALL_ABILITY_EXCEPTIONS[name] then
-    primary_name = ALL_ABILITY_EXCEPTIONS[name].has_primary
-  end
-
-  if primary_name~=nil then
-    return primary_name
-  else
-    return false
-  end
-end
-
 function CDOTABaseAbility:GetRandomPointInRadius( v_location, min_dist, max_dist )
   local random_length = RandomInt( min_dist, max_dist )
   local random_point = v_location + RandomVector( random_length )
@@ -566,7 +536,7 @@ function CDOTABaseAbility:IsAMapAbility() -- checks whether this ability is an a
   return false
 end
 
-function CDOTABaseAbility:IsMainHeroAbility()
+function CDOTABaseAbility:IsImportantHeroAbility()
   local name = self:GetName()
   if not self:IsAMapAbility() and name~="generic_hidden" and not string.match( name, "talent" ) and not string.match( name, "bonus" ) then
     return true
