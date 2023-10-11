@@ -15,7 +15,7 @@ require("extend_abilities")
 require("extend_npc")
 ```
 
-Put 'weak_creature.lua' in your vscripts/abilities folder
+Put 'weak_creature.lua' in your vscripts/abilities folder.
 
 Inside the filters.lua file, search for the function called ```Filters:DamageFilter(event)``` and add the following code after the local variables:
 
