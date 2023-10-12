@@ -42,33 +42,56 @@ Finally, add the `npc_units_extension.txt` file to the `scripts/npc` folder in y
 
 After following these steps, you should be ready to use the extended npc and ability classes
 
-# API:
-Methods for the ability class:
+# API: Ability Class:
+
 ParentOverrideCurrentGesture( ENUM_GESTURE )
+
 ApplyDamageToEnemiesWithin( v_location, radius, dmg_amount, dmg_type )
+
 FindClosestBasicEnemyWithin( radius )
+
 FindBasicEnemiesWithin( targetPos, radius )
+
 CreateIndicator( v_location, fl_duration, fl_radius )
+
 GetRandomPointInRadius( v_location, min_dist, max_dist )
+
 GetRandomPointInSquare( v_location, min_dist, max_dist )
+
 IsAMapAbility()
+
 IsAMainAbility()
+
 GetAllAbilitySpecials()
+
 GetHasAbilitySpecialWith( name_str )
+
 GetFirstAbilitySpecialNameContaining( name_str )
+
 GetCastTypeString()
+
 GetReturnReleaseOrEndAbilityName()
+
 IsReturnReleaseOrEndAbilityName()
+
 BeginCastStormRadial( ability_name, origin, cast_qty, delay, min_dist, max_dist, min_radius, max_radius, b_randomize_origin )
+
 SplitSubcast( ability_name, origin, original_angles, cast_qty, delay, angle_increment_degrees, offset_angle_degrees, dist_from_origin, dist_from_subcaster, dist_increment, radius_fl, damage_fl, length_int, vector_cast_rotation )
 
-Methods for the npc class:
+# API: NPC Class:
+
 PlaySequenceWithRateModifier( act_enum, seq_str, rate, dur )
+
 CreateSubcasters( num )
+
 GetSubcasters()
+
 GetIdleSubcasters()
+
 GetDistToPos( pos )
+
 GetHerosMainAbilities()
+
 DelayCastWithOrders( order_params, delay )
 
 # IMPORTANT AND USEFUL STUFF:
