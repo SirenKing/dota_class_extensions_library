@@ -44,7 +44,7 @@ After following these steps, you should be ready to use the extended npc and abi
 
 # API: Ability Class:
 
-`ParentOverrideCurrentGesture( GameActivity_t )` Stop this unit's current gesture and replace it with the one you define. Takes a [GameActivity_t](https://moddota.com/api/#!/vscripts/GameActivity_t) enum.
+`ParentOverrideCurrentGesture( GameActivity_t )` Stop and override the current gesture of this ability's caster, replace it with the gesture you define. Takes a [GameActivity_t](https://moddota.com/api/#!/vscripts/GameActivity_t) enum. If you want to play a specific animation, look instead at `PlaySequenceWithRateModifier()` in the NPC class extension.
 
 `ApplyDamageToEnemiesWithin( v_location, int_radius, int_damage, enum_dmgType )` At [v_location](https://moddota.com/api/#!/vscripts?search=vector) on the map, deal int_damage to basic enemies within int_radius, the damage type being [enum_dmgType](https://moddota.com/api/#!/vscripts/DAMAGE_TYPES). Bear in mind that the damage type is an enum, not a string (it will not work if you put quotes around the enum).
 
