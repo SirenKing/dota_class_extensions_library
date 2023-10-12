@@ -92,7 +92,7 @@ After following these steps, you should be ready to use the extended npc and abi
 
 `GetHerosMainAbilities()` Get an array of all this heroes 'main' abilities' names, excluding 'map' abilities and talents and 'generic_hidden.'
 
-`DelayCastWithOrders( order_params, delay )` Currently, this is just `ExecuteOrderFromTable()` wrapped in a table. In the future, this method will reconcile issues with any `ExecuteOrderFromTable()` you call and let you know in the console.
+`DelayCastWithOrders( order_params, delay )` Currently, this is just `ExecuteOrderFromTable()` wrapped in a timer. In the future, this method will reconcile issues with any `ExecuteOrderFromTable()` you call and let you know in the console.
 
 # IMPORTANT AND USEFUL STUFF:
 [Moddota's API tools and Tutorials](https://moddota.com/api/#!/vscripts)
