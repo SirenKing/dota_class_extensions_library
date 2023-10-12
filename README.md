@@ -1,7 +1,7 @@
 # dota_class_extensions_library
 Encapsulates common/useful tasks as methods for general use. Requires some tools/methods from the basic Butt Template here: https://github.com/Snoresville/dota2buttemplate_fixed.
 
-If you are new to modding, be sure to follow the instructions in the template's README. They are well-written and easy to follow.
+If you are new to modding, be sure to follow the instructions in the butt template's README. They are well-written and easy to follow.
 
 # GETTING STARTED:
 To use this code, simply copy the following files from this repository into your 'vscripts` folder:
