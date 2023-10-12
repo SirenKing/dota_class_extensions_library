@@ -4,20 +4,20 @@ Encapsulates common/useful tasks as methods for general use. Requires some tools
 If you are new to modding, be sure to follow the instructions in the butt template's README. They are well-written and easy to follow.
 
 # GETTING STARTED:
-To use this code, simply copy the following files from this repository into your 'vscripts` folder:
+1. To use this code, simply copy the following files from this repository into your 'vscripts` folder:
 - extend_abilities.lua
 - extend_npc.lua
   
-Next, put this code at the top of your 'addon_game_mode.lua' file, but under any other lines starting with 'require':
+2. Next, put this code at the top of your 'addon_game_mode.lua' file, but under any other lines starting with 'require':
 
 ```lua
 require("extend_abilities")
 require("extend_npc")
 ```
 
-Put 'weak_creature.lua' in your vscripts/abilities folder.
+3. Put 'weak_creature.lua' in your vscripts/abilities folder.
 
-Inside the filters.lua file, search for the function called ```Filters:DamageFilter(event)``` and add the following code after the local variables:
+4. Inside the filters.lua file, search for the function called ```Filters:DamageFilter(event)``` and add the following code after the local variables:
 
 ```lua
     if attackerUnit and attackerUnit.hero_parent~=nil and attackerUnit.hero_parent:IsRealHero() then
@@ -32,15 +32,15 @@ Inside the filters.lua file, search for the function called ```Filters:DamageFil
 		return false
     end
 ```
-This code is specifically included so that heroes are credited with the damage dealt -and any kills- by any 'subcasters' they summon. Normally, it is good practice to instead set the unit's 'owner' with the built-in method ```unit:SetOwner( hero )``` and then use ```unit:GetOwner( hero )``` to retrieve this information. In this case, however, bots will try to control any units they 'own' and this causes severe lag, so these units should not be 'owned.'
+This code is specifically included so that heroes are credited with the damage dealt -and any kills- by any 'subcasters' they summon. Normally, it is good practice to instead set the unit's 'owner' with the built-in method ```unit:SetOwner( hero )``` and then use ```unit:GetOwner( hero )``` to retrieve this information. In this case, however, bots will try to control any units they 'own' and this causes severe lag.
 
-Add the `npc_abilities_extension.txt` file to the `scripts/npc` folder in your mod folder. Then add this line to the very top of your project's `npc_abilities_custom.txt` file, above the line that says "DOTAAbilities":
+5. Add the `npc_abilities_extension.txt` file to the `scripts/npc` folder in your mod folder. Then add this line to the very top of your project's `npc_abilities_custom.txt` file, above the line that says "DOTAAbilities":
 ```#base npc_abilities_extension.txt```
 
-Finally, add the `npc_units_extension.txt` file to the `scripts/npc` folder in your mod folder. Then add this line to the very top of your project's `npc_units_custom.txt` file, above the line that says "DOTAUnits":
+6. Finally, add the `npc_units_extension.txt` file to the `scripts/npc` folder in your mod folder. Then add this line to the very top of your project's `npc_units_custom.txt` file, above the line that says "DOTAUnits":
 ```#base npc_units_extension.txt```
 
-After following these steps, you should be ready to use the extended npc and ability classes
+After following these steps, you should be ready to use the extended npc and ability classes.
 
 # API: Ability Class:
 
