@@ -58,13 +58,13 @@ After following these steps, you should be ready to use the extended npc and abi
 
 `GetRandomPointInSquare( v_location, int_minXY, int_maxXY )` Return a random [v_location](https://moddota.com/api/#!/vscripts?search=vector) that is at least int_minDist distance horizontally and vertically from the input [v_location](https://moddota.com/api/#!/vscripts?search=vector) and less than or equal to distance horizontally and vertically from the same location.
 
-`IsAMapAbility()` Return a bool stating whether this ability is a 'map' ability ('map' abilities are the hidden passives that every hero has that allows them to interact with Outposts, Lotus Pools, Gates, etc.
+`IsAMapAbility()` Return a bool stating whether this ability is a 'map' ability ('map' abilities are the hidden passives that every hero has that allows them to interact with Outposts, Lotus Pools, Gates, etc)
 
-`IsAMainAbility()` Return whether this bool stating whether this ability is a 'map' ability for the hero. This includes hidden/secondary abilities that are unique to this hero. This EXCLUDES talents, "generic_hidden' and map abilities.
+`IsAMainAbility()` Return whether this bool stating whether this ability is a 'main' ability for the hero. This includes hidden/secondary abilities that are unique to this hero. This EXCLUDES talents, "generic_hidden' and 'map' abilities.
 
 `GetAllAbilitySpecials()` Return a kv array where'k' = the name of the ability value and 'v' = the value. Usually, you would use `for k,v in pairs(table) do' loop to access the k and the v as seperate variables.
 
-`GetHasAbilitySpecialWith( name_str )` Return whether this bool stating whether this ability has an AbilitySpecial name/key that contains the input string.
+`GetHasAbilitySpecialWith( name_str )` Return whether this bool stating whether this ability has an AbilitySpecial name/key that contains the input string. This is useful, for instance, if you want to see whether this ability has an 'area_damage' key so that you know this ability does area damage.
 
 `GetFirstAbilitySpecialNameContaining( name_str )` Return the value of FIRST AbilitySpecial name/key that contains the input string.
 
