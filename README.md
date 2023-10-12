@@ -44,7 +44,7 @@ After following these steps, you should be ready to use the extended npc and abi
 
 # API: Ability Class:
 
-`ParentOverrideCurrentGesture( GameActivity_t )` referrence a 
+`ParentOverrideCurrentGesture( GameActivity_t )` Stop this unit's current gesture and replace it with the one you define. Takes a [GameActivity_t](https://moddota.com/api/#!/vscripts/GameActivity_t) enum.
 
 `ApplyDamageToEnemiesWithin( v_location, int_radius, int_damage, enum_dmgType )` At [v_location](https://moddota.com/api/#!/vscripts?search=vector) on the map, deal int_damage to basic enemies within int_radius, the damage type being [enum_dmgType](https://moddota.com/api/#!/vscripts/DAMAGE_TYPES)
 
@@ -52,7 +52,7 @@ After following these steps, you should be ready to use the extended npc and abi
 
 `FindBasicEnemiesWithin( v_targetPos, int_radius )` Return an array of all general enemies within int_radius.
 
-`CreateIndicator( v_location, fl_duration, int_radius )` At a [v_location](https://moddota.com/api/#!/vscripts?search=vector) on the map, create a red warning indicator of int_radius.
+`CreateIndicator( v_location, fl_duration, int_radius )` At a [v_location](https://moddota.com/api/#!/vscripts?search=vector) on the map, create a red warning indicator (particle) of int_radius.
 
 `GetRandomPointInRadius( v_location, int_minDist, int_maxDist )` Return a random [v_location](https://moddota.com/api/#!/vscripts?search=vector) that is at least int_minDist from the inputted [v_location](https://moddota.com/api/#!/vscripts?search=vector) and less than or equal to int_maxDist from the same location.
 
