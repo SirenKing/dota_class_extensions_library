@@ -52,7 +52,7 @@ After following these steps, you should be ready to use the extended npc and abi
 
 `FindBasicEnemiesWithin( v_targetPos, int_radius )` Return an array of all general enemies within int_radius.
 
-`CreateIndicator( v_location, fl_duration, int_radius )` At a [v_location](https://moddota.com/api/#!/vscripts?search=vector) on the map, create a red warning indicator (particle) of int_radius.
+`CreateIndicator( v_location, fl_duration, int_radius )` At a [v_location](https://moddota.com/api/#!/vscripts?search=vector) on the map, create a red warning indicator (particle) of int_radius. The used particle is native to DotA, so you won't have to worry about creating or downloading it.
 
 `GetRandomPointInRadius( v_location, int_minDist, int_maxDist )` Return a random [v_location](https://moddota.com/api/#!/vscripts?search=vector) that is at least int_minDist from the inputted [v_location](https://moddota.com/api/#!/vscripts?search=vector) and less than or equal to int_maxDist from the same location.
 
