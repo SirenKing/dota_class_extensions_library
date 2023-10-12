@@ -4,7 +4,7 @@ Encapsulates common/useful tasks as methods for general use. Requires some tools
 If you are new to modding, be sure to follow the instructions in the template's README. They are well-written and easy to follow.
 
 # GETTING STARTED:
-To use this code, simply copy the following files from this repository into your 'vscripts/` folder:
+To use this code, simply copy the following files from this repository into your 'vscripts` folder:
 - extend_abilities.lua
 - extend_npc.lua
   
@@ -44,55 +44,55 @@ After following these steps, you should be ready to use the extended npc and abi
 
 # API: Ability Class:
 
-ParentOverrideCurrentGesture( ENUM_GESTURE )
+`ParentOverrideCurrentGesture( GameActivity_t )` referrence a 
 
-ApplyDamageToEnemiesWithin( v_location, radius, dmg_amount, dmg_type )
+`ApplyDamageToEnemiesWithin( v_location, int_radius, int_damage, enum_dmgType )` At [v_location](https://moddota.com/api/#!/vscripts?search=vector) on the map, deal int_damage to basic enemies within int_radius, the damage type being [enum_dmgType](https://moddota.com/api/#!/vscripts/DAMAGE_TYPES)
 
-FindClosestBasicEnemyWithin( radius )
+`FindClosestBasicEnemyWithin( int_radius )` Find and return the closest general enemy within int_radius.
 
-FindBasicEnemiesWithin( targetPos, radius )
+`FindBasicEnemiesWithin( v_targetPos, int_radius )` Return an array of all general enemies within int_radius.
 
-CreateIndicator( v_location, fl_duration, fl_radius )
+`CreateIndicator( v_location, fl_duration, int_radius )` At a [v_location](https://moddota.com/api/#!/vscripts?search=vector) on the map, create a red warning indicator of int_radius.
 
-GetRandomPointInRadius( v_location, min_dist, max_dist )
+`GetRandomPointInRadius( v_location, int_minDist, int_maxDist )` Return a random [v_location](https://moddota.com/api/#!/vscripts?search=vector) that is at least int_minDist from the inputted [v_location](https://moddota.com/api/#!/vscripts?search=vector) and less than or equal to int_maxDist from the same location.
 
-GetRandomPointInSquare( v_location, min_dist, max_dist )
+`GetRandomPointInSquare( v_location, int_minXY, int_maxXY )` Return a random [v_location](https://moddota.com/api/#!/vscripts?search=vector) that is at least int_minDist distance horizontally and vertically from the input [v_location](https://moddota.com/api/#!/vscripts?search=vector) and less than or equal to distance horizontally and vertically from the same location.
 
-IsAMapAbility()
+`IsAMapAbility()` Return a bool stating whether this ability is a 'map' ability ('map' abilities are the hidden passives that every hero has that allows them to interact with Outposts, Lotus Pools, Gates, etc.
 
-IsAMainAbility()
+`IsAMainAbility()` Return whether this bool stating whether this ability is a 'map' ability for the hero. This includes hidden/secondary abilities that are unique to this hero. This EXCLUDES talents, "generic_hidden' and map abilities.
 
-GetAllAbilitySpecials()
+`GetAllAbilitySpecials()` Return a kv array where'k' = the name of the ability value and 'v' = the value. Usually, you would use `for k,v in pairs(table) do' loop to access the k and the v as seperate variables.
 
-GetHasAbilitySpecialWith( name_str )
+`GetHasAbilitySpecialWith( name_str )` Return whether this bool stating whether this ability has an AbilitySpecial name/key that contains the input string.
 
-GetFirstAbilitySpecialNameContaining( name_str )
+`GetFirstAbilitySpecialNameContaining( name_str )` Return the value of FIRST AbilitySpecial name/key that contains the input string.
 
-GetCastTypeString()
+`GetCastTypeString()` Return the string form of the ability's 'AbilityBehavior' (The 'AbilityBehavior' value can also be found by looking at your kv files and looking at the 'AbilityBehavior' value). The returned value will usually look something like this "DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_HIDDEN" and you will need to parse or string.match to get what you are looking for.
 
-GetReturnReleaseOrEndAbilityName()
+`GetReturnReleaseOrEndAbilityName()` Return this ability's secondary ability (if there is one) listed in 'ability_exceptions.txt.' This function does NOT rely on `GetAssociatedSecondaryAbilities()` or similar methods because they are not reliable.
 
-IsReturnReleaseOrEndAbilityName()
+`IsReturnReleaseOrEndAbilityName()` Return whether this ability is listed as a 'secondary' ability in 'ability_exceptions.txt. This function does NOT rely on `GetAssociatedSecondaryAbilities()` or similar methods because those are not reliable.
 
-BeginCastStormRadial( ability_name, origin, cast_qty, delay, min_dist, max_dist, min_radius, max_radius, b_randomize_origin )
+`BeginCastStormRadial( ability_name, origin, cast_qty, delay, min_dist, max_dist, min_radius, max_radius, b_randomize_origin )` This ability will use it's caster, subcasters, and location to repeatedly cast the named ability in random locations around the origin, using the rest of the variables as extra data.
 
-SplitSubcast( ability_name, origin, original_angles, cast_qty, delay, angle_increment_degrees, offset_angle_degrees, dist_from_origin, dist_from_subcaster, dist_increment, radius_fl, damage_fl, length_int, vector_cast_rotation )
+`SplitSubcast( ability_name, origin, original_angles, cast_qty, delay, angle_increment_degrees, offset_angle_degrees, dist_from_origin, dist_from_subcaster, dist_increment, radius_fl, damage_fl, length_int, vector_cast_rotation )` This ability will use it's caster, subcasters, and location to repeatedly cast the named ability in a specified patter around the origin, using the rest of the variables as extra data.
 
 # API: NPC Class:
 
-PlaySequenceWithRateModifier( act_enum, seq_str, rate, dur )
+`PlaySequenceWithRateModifier( act_enum, seq_str, rate, dur )` Force this npc to play a specific animation sequence for it's current model. This method is not like `ForcePlayActivityOnce()` or 'StartGesture()' which play a random animation related to the enum you provide, such as a random `ACT_IDLE` animation or a random 'ACT_WALK' animation. Instead, this method plays the specific animation you listed that is related to the ACT enum you provide, also allowing you to specify a playback rate and duration. If the duration is nil then the animation will play once and then stop.
 
-CreateSubcasters( num )
+`CreateSubcasters( num )` Create `num` amount of subcasters for this unit to use. These 'subcasters' are the 'npc_dota_subcaster' unit defined in the npc_units_extension.txt provided in this repo.
 
-GetSubcasters()
+`GetSubcasters()` Get an array of all the subcaster units associated with this unit. Bear in mind; these subcasters are not 'owned' by this unit (because bot try to control the units they own, cause lag in this case).
 
-GetIdleSubcasters()
+`GetIdleSubcasters()` Get an array of all the subcaster units associated with this unit, but for which '.busy' == false. When a subcaster casts an ability, they are considered 'busy' for the next 8 seconds, or while they are still channeling.
 
-GetDistToPos( pos )
+`GetDistToPos( pos )` Get the literal distance between this unit's [v_location](https://moddota.com/api/#!/vscripts?search=vector) and the given [v_location](https://moddota.com/api/#!/vscripts?search=vector). Unlike `FindPathLength()`, this method returns the distance without regard for terrain or movement capabilities. This method also disregards world height, returning only the distance for xy and xy.
 
-GetHerosMainAbilities()
+`GetHerosMainAbilities()` Get an array of all this heroes 'main' abilities' names, excluding 'map' abilities and talents and 'generic_hidden.'
 
-DelayCastWithOrders( order_params, delay )
+`DelayCastWithOrders( order_params, delay )` Currently, this is just `ExecuteOrderFromTable()` wrapped in a table. In the future, this method will reconcile issues with any `ExecuteOrderFromTable()` you call and let you know in the console.
 
 # IMPORTANT AND USEFUL STUFF:
 [Moddota's API tools and Tutorials](https://moddota.com/api/#!/vscripts)
